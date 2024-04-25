@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>React</title>
+  <!-- 引入React和ReactDOM的CDN链接 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    const styles = {
+      container: {
+        margin: "0 auto",
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: '#ecf0f1',
+        padding: 8,
+        width: "500px"
+      },
+      paragraph: {
+        margin: 24,
+        fontSize: 18,
+        fontWeight: 'bold',
+        divAlign: 'center',
+        display: "flex",
+        backgroundColor: '#ffffff',
+        justifyContent: "center",
+        height: "50px",
+        alignItems: "center"
+      },
+      clock: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 24,
+      },
+    };
+
+
+    const RenderClock = (props) => {
+      const { hours, minutes, seconds } = props;
+
+      const newHours = hours < 10 ? '0' + hours : hours;
+      const newMinutes = minutes < 10 ? '0' + minutes : minutes;
+      const newSeconds = seconds < 10 ? '0' + seconds : seconds;
+
+      return (
+        <div style={styles.clock}>
+          {newHours + ':' + newMinutes + ':' + newSeconds}
+        </div>
+      );
+    };
+
+    const App = () => {
+      const [now, setNow] = React.useState(new Date());
+      const [clockList, setClocklist] = React.useState([]);
+      const setNewTime = () => {
+        setNow(new Date());
+      };
+      const setNewClock = () => {
+        setClocklist([...clockList, 1]);
+      };
+      const deleteClock = () => {
+        clockList.shift();
+        setClocklist([...clockList]);
+      };
+      return (
+        <div style={styles.container}>
+          <div style={styles.paragraph}>Ray</div>
+          <div style={styles.paragraph}>
+            <RenderClock
+              hours={now.getHours()}
+              minutes={now.getMinutes()}
+              seconds={now.getSeconds()}
+            />
+          </div>
+          <div style={styles.paragraph}>
+            <div style={styles.clock}>
+              <button onClick={setNewTime}>
+                Refresh
+              </button>
+            </div>
+          </div>
+          <div style={styles.paragraph}>
+            <div style={styles.clock}>
+              <button onClick={setNewClock}>
+                Add
+              </button>
+            </div>
+          </div>
+          <div style={styles.paragraph}>
+            <div style={styles.clock}>
+              <button onClick={deleteClock}>
+                Delete
+              </button>
+            </div>
+          </div>
+          {clockList.map((r) => {
+            return (
+              <div style={styles.paragraph}>
+                <RenderClock
+                  hours={now.getHours()}
+                  minutes={now.getMinutes()}
+                  seconds={now.getSeconds()}
+                />
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const RenderClock = (props) => {
   const { hours, minutes, seconds } = props;
